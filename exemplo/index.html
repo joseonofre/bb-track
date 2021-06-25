@@ -1,0 +1,75 @@
+<html>
+
+<body>
+    <div>
+        <ul>
+            <li>Sem texto</li>
+            <li>Imagem com alt</li>
+            <li>Resultado: data-bb-acao="conteúdo-dinâmico" data-bb-rotulo="img-alt:alt da imagem"</li>
+        </ul>
+        <p>
+            <a
+                href="https://www.bb.com.br/pbb/pagina-inicial/empresas/produtos-e-servicos/conta-pj/bb-conta-facil-microempreendedor"
+            >
+                <img 
+                    src="https://www.bb.com.br/docs/pub/inst/dwn/BPCambioIcone.png" 
+                    alt="alt da imagem" 
+                    width="50"
+                    height="50"
+                /> 
+            </a>
+        </p>
+        <ul>
+            <li>Sem texto</li>
+            <li>Imagem sem alt</li>
+            <li>Resultado: data-bb-acao="conteúdo-dinâmico" data-bb-rotulo="img-src:https://www.bb.com.br/docs/pub/inst/dwn/BPCambioIcone.png"</li>
+        </ul>
+        <p>
+            <a
+                href="https://www.bb.com.br/pbb/pagina-inicial/empresas/produtos-e-servicos/conta-pj/bb-conta-facil-microempreendedor"
+            >
+                <img 
+                    src="https://www.bb.com.br/docs/pub/inst/dwn/BPCambioIcone.png" 
+                    width="50" 
+                    height="50"
+                > 
+            </a>
+        </p>
+        <ul>
+            <li>Com texto</li>
+            <li>Com Imagem</li>
+            <li>Resultado: data-bb-acao="conteúdo-dinâmico" data-bb-rotulo="canal"</li>
+        </ul>
+        <p>
+            <a
+                href="https://www.bb.com.br/pbb/pagina-inicial/voce/produtos-e-servicos/contas/conta-facil/perguntas-frequentes"
+            >
+                <img 
+                    src="https://www.bb.com.br/docs/pub/inst/dwn/BPCambioIcone.png" 
+                    width="50" 
+                    height="50"
+                > 
+                canal
+            </a>
+        </p>
+        <ul>
+            <li>Com texto</li>
+            <li>Sem Imagem</li>
+            <li>Resultado: data-bb-acao="conteúdo-dinâmico" data-bb-rotulo="canal"</li>
+        </ul>
+        <p>
+            <a
+                href="https://www.bb.com.br/pbb/pagina-inicial/voce/produtos-e-servicos/contas/conta-facil/perguntas-frequentes"
+            >
+                canal
+            </a>
+        </p>
+    </div>
+    <script src="../dist/index.js"></script>
+    <script>
+        const html = addAttrTracker(document.querySelector('div').innerHTML);
+        document.querySelector('div').innerHTML = html;
+    </script>
+</body>
+
+</html>
