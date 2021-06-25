@@ -4,13 +4,19 @@ function convertStrToHtml(str: string): Element {
     return htmlObject;
 }
 
-function addAttrTracker(str = '') {
+/**
+ * Adiciona os atributos data-bb-acao e data-bb-rotuno nas tags A
+ * @date 2021-06-25
+ * @param {string} str=''
+ * @returns {string}
+ */
+export default function adicionarBBTrackerNoTexto(str: string = ''): string {
     const htmlObject = convertStrToHtml(str);
     const elements: NodeListOf<HTMLAnchorElement> = htmlObject.querySelectorAll('a');
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         const attrs: Array<string> = element.getAttributeNames() || [];
-        
+
         /* 
         * Adiciona data-bb-acao
         * Se no elemento já existir o data-bb-rotulo, não pode ser inserido o data-bb-acao, isso significa que já existe o data-bb-acao em um parent
@@ -32,14 +38,30 @@ function addAttrTracker(str = '') {
                 const imgElement: HTMLImageElement | null = element.querySelector('img');
                 const imgAlt: string = imgElement?.getAttribute('alt')?.trim() || '';
                 const imgSrc: string = imgElement?.getAttribute('src')?.trim() || '';
-                if(!!imgAlt) {
+                if (!!imgAlt) {
                     rotulo = `img-alt:${imgAlt}`;
-                } else if(imgSrc) {
+                } else if (imgSrc) {
                     rotulo = `img-src:${imgSrc}`;
                 }
             }
             element.setAttribute('data-bb-rotulo', rotulo)
         }
     }
-    return htmlObject.innerHTML;
+    return String(htmlObject.innerHTML);
+}
+
+
+/**
+ * Busca o elemento na página e adicionar os atributos data-bb-acao e data-bb-rotuno nas tags A
+ * @date 2021-06-25
+ * @param {string} elemento:string
+ * @returns {void}
+ */
+export function adicionarBBTrackerNoElemento(elemento: string) {
+    const el: Element | null = document.querySelector(elemento);
+    if (el) {
+        const str: string = el?.innerHTML || '';
+        const strHtml = adicionarBBTrackerNoTexto(str);
+        el.innerHTML = strHtml;
+    }
 }

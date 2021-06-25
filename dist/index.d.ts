@@ -1,2 +1,1 @@
-declare function convertStrToHtml(str: string): Element;
-declare function addAttrTracker(str?: string): string;
+export default function addAttrTracker(str?: string): string;

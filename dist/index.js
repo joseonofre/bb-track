@@ -1,4 +1,5 @@
 "use strict";
+exports.__esModule = true;
 function convertStrToHtml(str) {
     var htmlObject = document.createElement('div');
     htmlObject.innerHTML = str;
@@ -45,3 +46,4 @@ function addAttrTracker(str) {
     }
     return htmlObject.innerHTML;
 }
+exports["default"] = addAttrTracker;
