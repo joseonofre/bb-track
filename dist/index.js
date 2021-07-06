@@ -1,14 +1,34 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 exports.__esModule = true;
+exports.adicionarBBTrackerNoElemento = void 0;
 function convertStrToHtml(str) {
     var htmlObject = document.createElement('div');
     htmlObject.innerHTML = str;
     return htmlObject;
 }
-function addAttrTracker(str) {
+/**
+ * Adiciona os atributos data-bb-acao e data-bb-rotuno nas tags A
+ * @date 2021-06-25
+ * @param {string} str=''
+ * @returns {string}
+ */
+function adicionarBBTrackerNoTexto(str, options) {
     var _a, _b;
     if (str === void 0) { str = ''; }
     var htmlObject = convertStrToHtml(str);
+    // Valores padrão
+    var options$ = __assign({ acao: 'conteúdo-dinâmico', rotulo: 'Nenhum rotulo encontrado' }, options);
     var elements = htmlObject.querySelectorAll('a');
     for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
@@ -19,13 +39,13 @@ function addAttrTracker(str) {
         * Em alguns casos, é necessário incluir somente o data-bb-rotulo
         */
         if (attrs.indexOf('data-bb-acao') === -1 && attrs.indexOf('data-bb-rotulo') === -1) {
-            element.setAttribute('data-bb-acao', 'conteúdo-dinâmico');
+            element.setAttribute('data-bb-acao', options$.acao);
         }
         /*
         * Adiciona data-bb-rotulo
         */
         if (attrs.indexOf('data-bb-rotulo') === -1) {
-            var rotulo = 'Nenhum rotulo encontrado';
+            var rotulo = options$.rotulo;
             var text = (element === null || element === void 0 ? void 0 : element.innerText) || '';
             if (text.trim()) {
                 rotulo = text.trim();
@@ -44,6 +64,21 @@ function addAttrTracker(str) {
             element.setAttribute('data-bb-rotulo', rotulo);
         }
     }
-    return htmlObject.innerHTML;
+    return String(htmlObject.innerHTML);
 }
-exports["default"] = addAttrTracker;
+exports["default"] = adicionarBBTrackerNoTexto;
+/**
+ * Busca o elemento na página e adicionar os atributos data-bb-acao e data-bb-rotuno nas tags A
+ * @date 2021-06-25
+ * @param {string} elemento:string
+ * @returns {void}
+ */
+function adicionarBBTrackerNoElemento(elemento, options) {
+    var el = document.querySelector(elemento);
+    if (el) {
+        var str = (el === null || el === void 0 ? void 0 : el.innerHTML) || '';
+        var strHtml = adicionarBBTrackerNoTexto(str, options);
+        el.innerHTML = strHtml;
+    }
+}
+exports.adicionarBBTrackerNoElemento = adicionarBBTrackerNoElemento;

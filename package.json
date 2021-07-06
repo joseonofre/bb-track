@@ -1,6 +1,6 @@
 {
   "name": "bb-track",
-  "version": "1.0.4",
+  "version": "1.0.9",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc --build",
-    "publish": "npm publish .",
+    "publish": "tsc --build && npm publish .",
     "clean": "tsc --build --clean"
   },
   "author": "",

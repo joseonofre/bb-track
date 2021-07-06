@@ -1,3 +1,9 @@
+interface Options {
+    categoria?: string; //page path
+    acao?: string; // conteúdo-dinâmico
+    rotulo?: string; // Nenhum rotulo encontrado
+}
+
 function convertStrToHtml(str: string): Element {
     const htmlObject = document.createElement('div');
     htmlObject.innerHTML = str;
@@ -10,8 +16,16 @@ function convertStrToHtml(str: string): Element {
  * @param {string} str=''
  * @returns {string}
  */
-export default function adicionarBBTrackerNoTexto(str: string = ''): string {
+export default function adicionarBBTrackerNoTexto(str: string = '', options?: Options): string {
     const htmlObject = convertStrToHtml(str);
+    
+    // Valores padrão
+    const options$ = {
+        acao: 'conteúdo-dinâmico',
+        rotulo: 'Nenhum rotulo encontrado', 
+        ...options
+    }
+
     const elements: NodeListOf<HTMLAnchorElement> = htmlObject.querySelectorAll('a');
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
@@ -23,14 +37,14 @@ export default function adicionarBBTrackerNoTexto(str: string = ''): string {
         * Em alguns casos, é necessário incluir somente o data-bb-rotulo
         */
         if (attrs.indexOf('data-bb-acao') === -1 && attrs.indexOf('data-bb-rotulo') === -1) {
-            element.setAttribute('data-bb-acao', 'conteúdo-dinâmico');
+            element.setAttribute('data-bb-acao', options$.acao);
         }
 
         /* 
         * Adiciona data-bb-rotulo
         */
         if (attrs.indexOf('data-bb-rotulo') === -1) {
-            let rotulo = 'Nenhum rotulo encontrado';
+            let rotulo = options$.rotulo;
             const text: string = element?.innerText || '';
             if (text.trim()) {
                 rotulo = text.trim();
@@ -57,11 +71,11 @@ export default function adicionarBBTrackerNoTexto(str: string = ''): string {
  * @param {string} elemento:string
  * @returns {void}
  */
-export function adicionarBBTrackerNoElemento(elemento: string) {
+export function adicionarBBTrackerNoElemento(elemento: string, options?: Options) {
     const el: Element | null = document.querySelector(elemento);
     if (el) {
         const str: string = el?.innerHTML || '';
-        const strHtml = adicionarBBTrackerNoTexto(str);
+        const strHtml = adicionarBBTrackerNoTexto(str, options);
         el.innerHTML = strHtml;
     }
 }
